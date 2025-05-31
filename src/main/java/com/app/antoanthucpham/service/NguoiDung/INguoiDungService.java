@@ -5,4 +5,6 @@ import com.app.antoanthucpham.model.NguoiDung;
 
 public interface INguoiDungService {
     NguoiDung addNguoiDung(NguoiDungDTO request);
+
+    NguoiDung getNguoiDungByEmail(String email);
 }

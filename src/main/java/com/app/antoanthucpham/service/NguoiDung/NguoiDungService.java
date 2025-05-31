@@ -52,4 +52,15 @@ public class NguoiDungService implements INguoiDungService {
         return nguoiDungRepository.save(user);
     }
 
+    @Override
+    public NguoiDung getNguoiDungByEmail(String email) {
+        NguoiDung nguoiDung = nguoiDungRepository.findByEmail(email);
+
+        if (nguoiDung == null) {
+            throw new NotFoundException("Người dùng không tồn tại!");
+        }
+
+        return nguoiDung;
+    }
+
 }

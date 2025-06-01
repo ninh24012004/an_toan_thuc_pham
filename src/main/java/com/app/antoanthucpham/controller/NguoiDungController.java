@@ -33,7 +33,7 @@ public class NguoiDungController {
         return ok(nguoiDung);
     }
 
-    @GetMapping("/getByEmail")
+    @GetMapping("/getbyemail")
     public ResponseEntity<ApiResponse> getNguoiDungByEmail(@RequestParam String email) {
         NguoiDung nguoiDung = nguoiDungService.getNguoiDungByEmail(email);
         return ok(nguoiDung);

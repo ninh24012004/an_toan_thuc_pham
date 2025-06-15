@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
@@ -86,5 +87,32 @@ public class PhanAnhService implements IPhanAnhService {
         String noAccents = normalized.replaceAll("\\p{M}", "");
         String noSpaces = noAccents.replaceAll("\\s+", "_");
         return noSpaces.replaceAll("[^a-zA-Z0-9._-]", "");
+    }
+
+    @Override
+    public List<PhanAnh> getAllPhanAnhs() {
+        return phanAnhRepository.findAll();
+    }
+
+    @Override
+    public PhanAnh getPhanAnhById(Long id) {
+        return phanAnhRepository.findById(id).orElseThrow(() -> new NotFoundException("Phản ánh không tồn tại!"));
+    }
+
+    @Override
+    public List<PhanAnh> getPhanAnhByChuCoSo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new NotFoundException("Người dùng chưa đăng nhập!");
+        }
+        String email = authentication.getName();
+
+        NguoiDung nguoiDung = nguoiDungRepository.findByEmail(email);
+        if (nguoiDung == null) {
+            throw new NotFoundException("Người dùng không tồn tại1!");
+        }
+
+        List<CoSoKinhDoanh> coSoKinhDoanhs = coSoKinhDoanhRepository.findByNguoiDung(nguoiDung);
+        return phanAnhRepository.findByCoSoKinhDoanhIn(coSoKinhDoanhs);
     }
 }

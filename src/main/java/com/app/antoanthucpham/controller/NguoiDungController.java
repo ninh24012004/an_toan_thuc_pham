@@ -2,7 +2,10 @@ package com.app.antoanthucpham.controller;
 
 import static com.app.antoanthucpham.response.ResponseUtils.ok;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,5 +40,12 @@ public class NguoiDungController {
     public ResponseEntity<ApiResponse> getNguoiDungByEmail(@RequestParam String email) {
         NguoiDung nguoiDung = nguoiDungService.getNguoiDungByEmail(email);
         return ok(nguoiDung);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse> getAllNguoiDung() {
+        List<NguoiDung> nguoiDungs = nguoiDungService.getAllNguoiDung();
+        return ok(nguoiDungs);
     }
 }

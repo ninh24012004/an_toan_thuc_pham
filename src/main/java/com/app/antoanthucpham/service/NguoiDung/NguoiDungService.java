@@ -1,5 +1,7 @@
 package com.app.antoanthucpham.service.NguoiDung;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +63,11 @@ public class NguoiDungService implements INguoiDungService {
         }
 
         return nguoiDung;
+    }
+
+    @Override
+    public List<NguoiDung> getAllNguoiDung() {
+        return nguoiDungRepository.findAll();
     }
 
 }
